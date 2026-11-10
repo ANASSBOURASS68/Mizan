@@ -1,0 +1,189 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="Mizan - Suivi des cours de l'or et de l'argent">
+
+    <title>Mizan</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <script type="module" src="src/js/main.js"></script>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <nav class="flex flex-col sm:flex-row">
+
+            <a href="#market-section" class="logo">Mizan</a>
+
+            <div class="nav-links flex flex-col sm:flex-row">
+                <a href="#market-section">Marché</a>
+                <a href="#history-section">Historique</a>
+                <a href="#calculator-section">Estimateur</a>
+            </div>
+
+            <button type="button" id="refresh-btn">
+                Actualiser
+            </button>
+
+        </nav>
+    </header>
+
+    <main>
+
+        <!-- US-01 / US-02 / US-03 : Cours des métaux -->
+        <section id="market-section">
+
+            <div class="section-header flex flex-col sm:flex-row">
+
+                <h1>Cours des métaux</h1>
+
+                <div>
+                    <label for="currency-select">Devise :</label>
+
+                    <select id="currency-select">
+                        <option value="MAD">MAD</option>
+                        <option value="USD">USD</option>
+                        <option value="EUR">EUR</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <!-- État de la requête -->
+            <div id="request-status" role="status" aria-live="polite">
+                Chargement des prix...
+             </div> </div>
+
+            <!-- Cartes générées par JavaScript -->
+            <div
+                id="prices-container"
+                class="flex flex-col sm:flex-row flex-wrap"
+            >
+            </div>
+
+            <button type="button" id="retry-btn" hidden>
+                Réessayer
+            </button>
+
+            <p id="last-update"></p>
+
+        </section>
+
+        <!-- US-04 : Historique -->
+        <section id="history-section">
+
+            <h2>Historique des prix</h2>
+
+            <div class="history-controls flex flex-col sm:flex-row">
+
+                <div>
+                    <label for="history-metal">Métal :</label>
+
+                    <select id="history-metal">
+                        <option value="">Choisir un métal</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="history-period">Période :</label>
+
+                    <select id="history-period">
+                        <option value="7">7 derniers jours</option>
+                        <option value="30">30 derniers jours</option>
+                    </select>
+                </div>
+
+                <button type="button" id="history-btn">
+                    Afficher l'historique
+                </button>
+
+            </div>
+
+            <p id="history-status" role="status" aria-live="polite"></p>
+
+            <!-- Graphique généré par JavaScript -->
+            <div id="history-chart">
+            </div>
+
+        </section>
+
+        <!-- US-05 : Estimateur de bijou -->
+        <section id="calculator-section">
+
+            <h2>Estimateur de bijou</h2>
+
+            <form id="calculator-form" class="flex flex-col">
+
+                <div>
+                    <label for="metal-select">Métal :</label>
+
+                    <select id="metal-select" required>
+                        <option value="">Choisir un métal</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="weight-input">
+                        Poids en grammes :
+                    </label>
+
+                    <input
+                        type="number"
+                        id="weight-input"
+                        min="0"
+                        step="any"
+                        placeholder="Exemple : 5.5"
+                        required
+                    >
+
+                    <small id="weight-error" role="alert"></small>
+                </div>
+
+                <button type="submit">
+                    Calculer
+                </button>
+
+            </form>
+
+            <!-- Résultat généré par JavaScript -->
+            <div id="calculation-result" aria-live="polite">
+            </div>
+
+        </section>
+
+        <!-- US-07 : Journal des requêtes -->
+        <section id="journal-section">
+
+            <details>
+
+                <summary>Journal des requêtes</summary>
+
+                <!-- Journal généré par JavaScript -->
+                <div id="request-log">
+                </div>
+
+            </details>
+
+        </section>
+
+    </main>
+
+    <footer>
+        <p>Mizan - Suivi des cours des métaux</p>
+    </footer>
+
+</body>
+
+</html>
+
+
