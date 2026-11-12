@@ -1,8 +1,11 @@
 import { getGold } from "./api.js";
 
 let pricescontainer = document.getElementById("prices-container");
+let requeststatus = document.getElementById("request-status");
 
+requeststatus.textContent = "Chargement des prix...";
 const data = await getGold();
+
 
 function displayPrices(data){
     let metals = [
@@ -33,11 +36,26 @@ function displayPrices(data){
         currency.classList.add("currency");
         currency.textContent = `${product.currency} / gram`;
 
-        card.append(title, price, currency);
+        const update = document.createElement("p");
+        update.classList.add("update-at")
+        update.textContent= new Date(data.updated_at).toLocaleString("fr-FR");
+
+        card.append(title, price, currency, update);
         pricescontainer.appendChild(card)
     })
+    requeststatus.textContent="Prix actualisés avec succès";
 
 }
 
 
-displayPrices(data)
+
+
+if(data == undefined){
+    requeststatus.textContent="Erreur lors du chargement des prix. Veuillez réessayer"
+}else{
+    displayPrices(data)
+
+}
+
+console.log(data)
+
