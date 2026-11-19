@@ -3,12 +3,16 @@ import { getGold } from "./api.js";
 let pricescontainer = document.getElementById("prices-container");
 let requeststatus = document.getElementById("request-status");
 
+let currencyselect = document.getElementById("currency-select");
+
+
 requeststatus.textContent = "Chargement des prix...";
 const data = await getGold();
 
 
 function displayPrices(data){
     let previousPrice = JSON.parse(localStorage.getItem("metal-prices")) || []
+    let selectedCurrency = currencyselect.value;
     let metals = [
         {
             name:"Gold",
@@ -21,9 +25,11 @@ function displayPrices(data){
             currency:"USD"
         }
     ]
+    pricescontainer.innerHTML = "";
     metals.forEach(product =>{
         let previousMetal =   previousPrice.find(element => element.name === product.name)
-        
+        let convertedPrice = product.price * data.fx_rates[selectedCurrency];
+
         let displayPourcentage = document.createElement("p");
         displayPourcentage.classList.add("purcentage");
 
@@ -36,7 +42,7 @@ function displayPrices(data){
 
         if (previousMetal) {
         variation = product.price - previousMetal.price;
-        variationTexte = variation.toFixed(3) +" USD";
+        variationTexte = variation.toFixed(3)+" "+ selectedCurrency ;
         pourcentage=(variation/previousMetal.price)*100
         pourcentageTexte = pourcentage.toFixed(2) +"%"
             
@@ -56,6 +62,10 @@ function displayPrices(data){
         pourcentageTexte = "Non disponible";
         }
 
+        currencyselect.addEventListener("change", function(){
+        displayPrices(data);
+        });
+
         const card = document.createElement("div")
         card.classList.add("card");
 
@@ -65,11 +75,11 @@ function displayPrices(data){
 
         const price = document.createElement("p");
         price.classList.add("price");
-        price.textContent = product.price.toFixed(3);
+        price.textContent = convertedPrice.toFixed(3);
 
         const currency = document.createElement("span");
         currency.classList.add("currency");
-        currency.textContent = `${product.currency} / gram`;
+        currency.textContent = `${selectedCurrency} / gram`;
 
         const update = document.createElement("p");
         update.classList.add("update-at")
@@ -101,5 +111,10 @@ if(data == undefined){
     displayPrices(data)
 
 }
+
+
+
+
+
 
 
